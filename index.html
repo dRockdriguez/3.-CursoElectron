@@ -3,8 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <style>
+      html, body{
+        height: 100%;;
+      }
+    </style>
   </head>
-  <body>
+  <body onclick="showPoint()">
     <h1>Hello World!</h1>
     <!-- All of the Node.js APIs are available in this renderer process. -->
     We are using Node.js <script>document.write(process.versions.node)</script>,
@@ -21,10 +26,19 @@
       console.log(`Chromium version: ${process.versions.chrome}`)
       console.log(`Resource path: ${process.resourcesPath}`)
 
+      console.log(process.getProcessMemoryInfo())
       setTimeout(() => {
       //  process.hang()
-      process.crash()
+      // process.crash()
       }, 2000)
+
+      const electron = require('electron')
+      const displays = electron.screen.getAllDisplays()
+      console.log(electron.screen.getAllDisplays())
+
+      function showPoint(){
+        console.log(electron.screen.getCursorScreenPoint())
+      }
     </script>
   </body>
 </html>

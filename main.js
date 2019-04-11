@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
-
+const electron = require('electron')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -10,10 +10,16 @@ function createWindow () {
   console.log(`Electron Version: ${process.versions.electron}`)
   console.log(`Chromium version: ${process.versions.chrome}`)
   console.log(`Resource path: ${process.resourcesPath}`)
+  console.log(process.getProcessMemoryInfo())
+
+  const primaryDisplay = electron.screen.getPrimaryDisplay()
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: primaryDisplay.size.width,
+    height: primaryDisplay.size.height,
+    x: primaryDisplay.bounds.x,
+    y: primaryDisplay.bounds.y,
     webPreferences: {
       nodeIntegration: true
     }
