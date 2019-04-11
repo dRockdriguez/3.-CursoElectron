@@ -7,6 +7,11 @@
       html, body{
         height: 100%;;
       }
+      .box{
+        border: 2px dashed black;
+        padding: 3rem 4rem;
+        float:left;
+      }
     </style>
   </head>
   <body onclick="showPoint()">
@@ -17,6 +22,15 @@
     and Electron <script>document.write(process.versions.electron)</script>.
 
     <button onclick="alert('hi')">HI</button>
+
+    <hr>
+    <br>
+    <div class="box" id="filebox">
+      <h2>Drop file here</h2>
+    </div>
+    <div class="box" id="trashbox">
+        <h2>Trash file here</h2>
+      </div>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
@@ -38,6 +52,26 @@
 
       function showPoint(){
         console.log(electron.screen.getCursorScreenPoint())
+      }
+
+      const { shell } = require('electron')
+      shell.openExternal('https://stackacademy.tv')
+      const filebox = document.getElementById("filebox")
+
+      filebox.ondragover = filebox.ondragend = filebox.ondragleave = 
+      trashbox.ondragover = trashbox.ondragend = trashbox.ondragleave =  () => {
+        return false;
+      }
+      let myFile = null;
+      filebox.ondrop = (e) => {
+        myFile = e.dataTransfer.files[0].path
+        shell.openItem(myFile)
+        return false
+      }
+      trashbox.ondrop = (e) => {
+        myFile = e.dataTransfer.files[0].path
+        shell.moveItemToTrash(myFile)
+        return false
       }
     </script>
   </body>
