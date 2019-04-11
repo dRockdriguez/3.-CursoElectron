@@ -6,6 +6,10 @@ const {app, BrowserWindow} = require('electron')
 let mainWindow
 
 function createWindow () {
+  console.log(`Process type: ${process.type}`)
+  console.log(`Electron Version: ${process.versions.electron}`)
+  console.log(`Chromium version: ${process.versions.chrome}`)
+  console.log(`Resource path: ${process.resourcesPath}`)
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
@@ -15,11 +19,15 @@ function createWindow () {
     }
   })
 
+  mainWindow.webContents.on('crashed', () => {
+    console.log('MainWindow renderer process crashed. reloading')
+    mainWindow.reload()
+  })
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

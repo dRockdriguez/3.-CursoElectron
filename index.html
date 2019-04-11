@@ -11,9 +11,20 @@
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
 
+    <button onclick="alert('hi')">HI</button>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
+
+      console.log(`Process type: ${process.type}`)
+      console.log(`Electron Version: ${process.versions.electron}`)
+      console.log(`Chromium version: ${process.versions.chrome}`)
+      console.log(`Resource path: ${process.resourcesPath}`)
+
+      setTimeout(() => {
+      //  process.hang()
+      process.crash()
+      }, 2000)
     </script>
   </body>
 </html>
